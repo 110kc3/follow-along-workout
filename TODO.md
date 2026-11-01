@@ -10,7 +10,7 @@ independently completable.
 - [x] Add `npm run validate` checking fixtures against schema
 
 ## M1 — Remotion renderer PoC (go/no-go)
-- [ ] Scaffold Remotion project in `render/` (check Node ≥18 suffices; else nvm → 20 LTS)
+- [x] Scaffold Remotion project in `render/`: created `package.json`, `tsconfig.json`, `Root.tsx`, `index.ts`, and `compositions/QuickBurn.tsx` referencing brand design tokens; verified with `scripts/remotion.test.mjs`.
 - [x] Brand kit stub `render/src/brand.ts` (placeholder colors/font until branding decided; includes 1080x1920 video specs, safe areas, and unit tests)
 - [ ] Composition: Quick Burn template (title card → per-exercise screens with countdown ring → CTA end card)
 - [ ] Compositions: EMOM + Mobility Reset (reuse Quick Burn components)
