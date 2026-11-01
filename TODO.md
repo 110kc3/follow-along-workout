@@ -11,7 +11,7 @@ independently completable.
 
 ## M1 — Remotion renderer PoC (go/no-go)
 - [ ] Scaffold Remotion project in `render/` (check Node ≥18 suffices; else nvm → 20 LTS)
-- [ ] Brand kit stub `render/src/brand.ts` (placeholder colors/font until branding decided)
+- [x] Brand kit stub `render/src/brand.ts` (placeholder colors/font until branding decided; includes 1080x1920 video specs, safe areas, and unit tests)
 - [ ] Composition: Quick Burn template (title card → per-exercise screens with countdown ring → CTA end card)
 - [ ] Compositions: EMOM + Mobility Reset (reuse Quick Burn components)
 - [ ] `npm run render -- fixtures/<name>.json` CLI wrapper
