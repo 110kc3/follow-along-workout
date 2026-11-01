@@ -1,0 +1,18 @@
+{
+  "id": "emom-sample-01",
+  "title": "4-Minute Total Body EMOM",
+  "hook": "4 minutes, 4 moves. Can you complete every round?",
+  "template": "emom",
+  "exercises": [
+    { "name": "Bodyweight Squat", "seconds": 30, "reps": 15, "cue": "Full depth, chest up" },
+    { "name": "Standard Push-up", "seconds": 30, "reps": 10, "cue": "Elbows at 45 degrees" },
+    { "name": "Reverse Lunge", "seconds": 30, "reps": 12, "cue": "Alternate legs smoothly" },
+    { "name": "Mountain Climbers", "seconds": 30, "reps": 20, "cue": "Drive knees to chest" }
+  ],
+  "rest": 10,
+  "caption": "High intensity, zero gym required. Try this 4-minute EMOM protocol anytime you need a quick sweat.",
+  "hashtags": ["#emom", "#hiitworkout", "#fullbodyworkout", "#bodyweight"],
+  "cta": "Drop your completed score in the comments!",
+  "music_id": "yt_audio_trap_energy_02",
+  "status": "scripted"
+}

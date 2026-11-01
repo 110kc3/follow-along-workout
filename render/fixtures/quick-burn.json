@@ -1,0 +1,19 @@
+{
+  "id": "quick-burn-sample-01",
+  "title": "5-Minute Daily Core Ignition",
+  "hook": "Burn your core in under 5 minutes right at home!",
+  "template": "quick-burn",
+  "exercises": [
+    { "name": "Forearm Plank", "seconds": 20, "cue": "Engage abs, don't sag hips" },
+    { "name": "Glute Bridge", "seconds": 20, "cue": "Squeeze at top" },
+    { "name": "Dead Bug", "seconds": 20, "cue": "Keep lower back pressed down" },
+    { "name": "Bicycle Crunch", "seconds": 20, "cue": "Slow and controlled rotation" },
+    { "name": "Superman Hold", "seconds": 20, "cue": "Lift chest and thighs off floor" }
+  ],
+  "rest": 10,
+  "caption": "No equipment needed. Quick 5-minute core ignition you can do anywhere to build stability.",
+  "hashtags": ["#coreworkout", "#quickburn", "#homeworkout", "#fitness"],
+  "cta": "Save this for your morning routine and subscribe!",
+  "music_id": "yt_audio_upbeat_funk_01",
+  "status": "scripted"
+}

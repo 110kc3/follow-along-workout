@@ -1,0 +1,17 @@
+{
+  "id": "mobility-reset-sample-01",
+  "title": "Desk Worker Spine & Hip Reset",
+  "hook": "Stuck sitting all day? Do this 60-second posture reset.",
+  "template": "mobility-reset",
+  "exercises": [
+    { "name": "Cat-Cow Stretch", "seconds": 15, "cue": "Sync movement with your breath" },
+    { "name": "Thoracic Spine Rotation", "seconds": 15, "cue": "Reach elbow high to ceiling" },
+    { "name": "World's Greatest Stretch", "seconds": 15, "cue": "Open up tight hip flexors" }
+  ],
+  "rest": 5,
+  "caption": "Reverse desk posture and relieve lower back tension in under 2 minutes. Perform gently.",
+  "hashtags": ["#mobility", "#posture", "#deskstretch", "#wellness"],
+  "cta": "Follow for daily mobility drills you can do at work!",
+  "music_id": "yt_audio_chill_ambient_03",
+  "status": "scripted"
+}

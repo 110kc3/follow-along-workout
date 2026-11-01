@@ -4,10 +4,10 @@ Milestones and decisions: [PLAN.md](PLAN.md). Work top-down; each item is
 independently completable.
 
 ## M0 — Scaffold + schema
-- [ ] Write `schema/workout.schema.json` (full per-video payload; fields listed in PLAN.md M0)
-- [ ] Write `schema/exercises.json` — ~40 allowlisted bodyweight/mobility exercises with safety tags (impact level, floor/standing, beginner-ok)
-- [ ] Write 3 fixture payloads in `render/fixtures/` (quick-burn, emom, mobility-reset)
-- [ ] Add `npm run validate` (ajv) checking fixtures against schema
+- [x] Write `schema/workout.schema.json` (full per-video payload; fields listed in PLAN.md M0)
+- [x] Write `schema/exercises.json` — ~40 allowlisted bodyweight/mobility exercises with safety tags (impact level, floor/standing, beginner-ok)
+- [x] Write 3 fixture payloads in `render/fixtures/` (quick-burn, emom, mobility-reset)
+- [x] Add `npm run validate` checking fixtures against schema
 
 ## M1 — Remotion renderer PoC (go/no-go)
 - [ ] Scaffold Remotion project in `render/` (check Node ≥18 suffices; else nvm → 20 LTS)

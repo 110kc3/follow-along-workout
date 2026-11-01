@@ -1,0 +1,19 @@
+{
+  "name": "follow-along-workout",
+  "version": "0.1.0",
+  "description": "Automated short-form vertical follow-along workout video pipeline",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "test": "npm run validate"
+  },
+  "keywords": [
+    "remotion",
+    "workout",
+    "shorts",
+    "n8n"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "private": true
+}
