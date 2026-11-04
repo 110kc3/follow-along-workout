@@ -20,7 +20,10 @@ independently completable.
 
 ## M2 — Script generation
 - [ ] Answer PLAN.md open questions 1 (language) — blocks prompt writing
-- [ ] Prompt templates in `prompts/` (workout composer, caption+hashtags) with safety rules
+- [x] Prompt templates in `prompts/` (workout composer, caption+hashtags) with safety rules:
+      created `prompts/workout-composer.md` (canonical 40-exercise taxonomy, progressive warmups,
+      rest minimums, JSON schema) and `prompts/caption-generator.md` (hooks, Short titles,
+      CTAs, retention copy); covered by test suite `scripts/prompts.test.mjs` (24 tests pass).
 - [ ] Create Google Sheet with schema columns + status lifecycle (idea/scripted/rendered/approved/posted/failed)
 - [ ] n8n workflow: cron → LiteLLM → schema-validate → append sheet rows
 - [ ] Export workflow JSON to `n8n/`
