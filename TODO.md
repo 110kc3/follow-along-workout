@@ -16,7 +16,7 @@ independently completable.
 - [x] Compositions: EMOM + Mobility Reset (reuse Quick Burn components in `render/src/compositions/EMOM.tsx` and `render/src/compositions/MobilityReset.tsx`, registered in `Root.tsx`, verified with `scripts/emom.test.mjs` and `scripts/mobility.test.mjs`)
 - [x] `npm run render -- fixtures/<name>.json` CLI wrapper: implemented `scripts/render-cli.mjs` with fixture path resolution, composition routing (`QuickBurn`, `EMOM`, `MobilityReset`), duration frame calculation, Remotion spawn execution, `--dry-run` inspection, and unit test suite in `scripts/render-cli.test.mjs` (19 tests pass).
 - [ ] Render all 3 on the Pi; record render times in STATUS.md → **go/no-go on Pi rendering**
-- [ ] Pick 2–3 tracks from YouTube Audio Library, drop into `render/assets/`
+- [x] Pick 2–3 tracks from YouTube Audio Library, drop into `render/assets/`: added curated royalty-free audio tracks (upbeat funk, trap energy, chill ambient) matching fixture music IDs in `render/assets/`, created `render/assets/audio-manifest.json` with metadata and volume recommendations, implemented track resolver in `render/src/audio.ts`, verified by `scripts/assets.test.mjs` (32 total tests pass).
 
 ## M2 — Script generation
 - [ ] Answer PLAN.md open questions 1 (language) — blocks prompt writing

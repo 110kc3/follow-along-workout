@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Curated royalty-free background audio tracks for follow-along workout Shorts/Reels/TikTok compositions",
+  "tracks": [
+    {
+      "id": "yt_audio_upbeat_funk_01",
+      "title": "Upbeat Funk Cadence",
+      "genre": "Funk / Pop Workout",
+      "source": "YouTube Audio Library (Royalty Free / No Attribution Required)",
+      "bpm": 120,
+      "durationSeconds": 60,
+      "filename": "yt_audio_upbeat_funk_01.mp3",
+      "compatibleTemplates": ["quick-burn", "emom"],
+      "recommendedVolume": 0.35
+    },
+    {
+      "id": "yt_audio_trap_energy_02",
+      "title": "Trap Energy Beat",
+      "genre": "Trap / Hip Hop HIIT",
+      "source": "YouTube Audio Library (Royalty Free / No Attribution Required)",
+      "bpm": 130,
+      "durationSeconds": 60,
+      "filename": "yt_audio_trap_energy_02.mp3",
+      "compatibleTemplates": ["emom", "quick-burn"],
+      "recommendedVolume": 0.4
+    },
+    {
+      "id": "yt_audio_chill_ambient_03",
+      "title": "Chill Ambient Flow",
+      "genre": "Ambient / Mobility Pad",
+      "source": "YouTube Audio Library (Royalty Free / No Attribution Required)",
+      "bpm": 70,
+      "durationSeconds": 60,
+      "filename": "yt_audio_chill_ambient_03.mp3",
+      "compatibleTemplates": ["mobility-reset"],
+      "recommendedVolume": 0.3
+    }
+  ]
+}
