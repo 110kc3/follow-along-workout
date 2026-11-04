@@ -1,0 +1,181 @@
+{
+  "name": "Follow-Along Workout - Render & Telegram Approval",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "id": "trigger-poll-scripted",
+      "name": "Poll Trigger (Every 10m)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "sheetId": {
+          "__rl": true,
+          "value": "FOLLOW_ALONG_WORKOUT_SHEET_ID",
+          "mode": "id"
+        },
+        "range": "Workouts!A:F",
+        "filters": {
+          "columnFilter": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "scripted"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "sheets-fetch-scripted",
+      "name": "Google Sheets - Fetch Scripted Rows",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/render",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.Payload }}"
+      },
+      "id": "http-render-service",
+      "name": "Remotion Service - POST /render",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "operation": "sendVideo",
+        "chatId": "TELEGRAM_WORKOUT_APPROVAL_CHAT_ID",
+        "video": "={{ $json.outputPath }}",
+        "caption": "=🔥 Daily Workout Ready for Review!\nTitle: {{ $('Google Sheets - Fetch Scripted Rows').item.json.Title }}\nTemplate: {{ $('Google Sheets - Fetch Scripted Rows').item.json.Template }}\nDuration: {{ $json.durationSeconds }}s ({{ $json.totalFrames }} frames)\n\nReview the render and select an option below:",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ Approve & Schedule",
+                    "additionalFields": {
+                      "callback_data": "=approve:{{ $('Google Sheets - Fetch Scripted Rows').item.json.row_number }}"
+                    }
+                  },
+                  {
+                    "text": "❌ Reject",
+                    "additionalFields": {
+                      "callback_data": "=reject:{{ $('Google Sheets - Fetch Scripted Rows').item.json.row_number }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "id": "telegram-send-preview",
+      "name": "Telegram - Send Video with Approve/Reject",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetId": {
+          "__rl": true,
+          "value": "FOLLOW_ALONG_WORKOUT_SHEET_ID",
+          "mode": "id"
+        },
+        "range": "Workouts!A:F",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "rendered",
+            "RenderOutputPath": "={{ $('Remotion Service - POST /render').item.json.outputPath }}",
+            "RenderedAt": "={{ new Date().toISOString() }}"
+          }
+        }
+      },
+      "id": "sheets-update-status-rendered",
+      "name": "Google Sheets - Update Row to Rendered",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1200, 300]
+    }
+  ],
+  "connections": {
+    "Poll Trigger (Every 10m)": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Fetch Scripted Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Fetch Scripted Rows": {
+      "main": [
+        [
+          {
+            "node": "Remotion Service - POST /render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remotion Service - POST /render": {
+      "main": [
+        [
+          {
+            "node": "Telegram - Send Video with Approve/Reject",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram - Send Video with Approve/Reject": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Row to Rendered",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": ["workout", "remotion", "approval", "telegram"]
+}

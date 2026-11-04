@@ -1,0 +1,125 @@
+{
+  "name": "Follow-Along Workout - Daily Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * *"
+            }
+          ]
+        }
+      },
+      "id": "trigger-cron-daily",
+      "name": "Schedule Trigger (Daily 06:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4000/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4o-mini\",\n  \"response_format\": { \"type\": \"json_object\" },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are an elite certified strength & conditioning coach and viral YouTube Shorts creator. Generate structured vertical follow-along workout videos adhering to the provided JSON schema.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Generate today's workout payload following the workout schema. Use allowlisted exercises from schema/exercises.json. Provide title, hook, template id ('quick-burn', 'emom', or 'mobility-reset'), exercises array with names and durations, rest duration, music id, and caption with hashtags.\"\n    }\n  ]\n}"
+      },
+      "id": "http-litellm-generate",
+      "name": "LiteLLM - Generate Workout Script",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.item.json;\nlet rawContent = response.choices?.[0]?.message?.content;\nif (!rawContent) {\n  throw new Error('LiteLLM returned empty or malformed completion');\n}\n\nlet workout;\ntry {\n  workout = typeof rawContent === 'string' ? JSON.parse(rawContent) : rawContent;\n} catch (err) {\n  throw new Error('Failed to parse LLM JSON: ' + err.message);\n}\n\n// Core schema validation\nconst validTemplates = ['quick-burn', 'emom', 'mobility-reset'];\nif (!validTemplates.includes(workout.template_id)) {\n  workout.template_id = 'quick-burn';\n}\n\nif (!workout.title) workout.title = 'Daily Quick Burn Workout';\nif (!Array.isArray(workout.exercises) || workout.exercises.length === 0) {\n  throw new Error('Workout payload must contain a non-empty exercises array');\n}\n\nreturn {\n  json: {\n    status: 'scripted',\n    template_id: workout.template_id,\n    title: workout.title,\n    scheduled_date: new Date().toISOString().split('T')[0],\n    payload: JSON.stringify(workout),\n    created_at: new Date().toISOString()\n  }\n};"
+      },
+      "id": "code-validate-payload",
+      "name": "Validate & Format Schema Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetId": {
+          "__rl": true,
+          "value": "FOLLOW_ALONG_WORKOUT_SHEET_ID",
+          "mode": "id"
+        },
+        "range": "Workouts!A:F",
+        "options": {},
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "={{ $json.status }}",
+            "Template": "={{ $json.template_id }}",
+            "Title": "={{ $json.title }}",
+            "ScheduledDate": "={{ $json.scheduled_date }}",
+            "Payload": "={{ $json.payload }}",
+            "CreatedAt": "={{ $json.created_at }}"
+          }
+        }
+      },
+      "id": "sheets-append-row",
+      "name": "Google Sheets - Append Scripted Row",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Daily 06:00)": {
+      "main": [
+        [
+          {
+            "node": "LiteLLM - Generate Workout Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LiteLLM - Generate Workout Script": {
+      "main": [
+        [
+          {
+            "node": "Validate & Format Schema Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate & Format Schema Payload": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Append Scripted Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": ["workout", "remotion", "generation"]
+}

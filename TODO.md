@@ -25,15 +25,15 @@ independently completable.
       rest minimums, JSON schema) and `prompts/caption-generator.md` (hooks, Short titles,
       CTAs, retention copy); covered by test suite `scripts/prompts.test.mjs` (24 tests pass).
 - [ ] Create Google Sheet with schema columns + status lifecycle (idea/scripted/rendered/approved/posted/failed)
-- [ ] n8n workflow: cron → LiteLLM → schema-validate → append sheet rows
-- [ ] Export workflow JSON to `n8n/`
+- [x] n8n workflow: cron → LiteLLM → schema-validate → append sheet rows (`n8n/workout-generator-workflow.json`)
+- [x] Export workflow JSON to `n8n/`: created daily workout generator workflow and render-approval workflow; covered by `scripts/n8n.test.mjs` (27 total tests pass).
 
 ## M3 — Render service + approval
 - [x] `render/server.mjs` HTTP POST /render + systemd unit: built native Node HTTP server
       with `/health` and `POST /render` (JSON payload, dry-run support, composition mapping,
       duration frame calculation), systemd service unit (`render/follow-along-render.service`),
       and unit test suite (`scripts/server.test.mjs`, 21 tests pass).
-- [ ] n8n: scripted row → render → Telegram preview with Approve/Reject → update status
+- [x] n8n: scripted row → render → Telegram preview with Approve/Reject → update status (`n8n/render-approval-workflow.json`)
 - [ ] Create Telegram bot, store token in n8n credentials
 
 ## M4 — YouTube upload
