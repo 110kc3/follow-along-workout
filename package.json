@@ -7,7 +7,7 @@
     "start": "node render/server.mjs",
     "validate": "node scripts/validate.mjs",
     "render": "node scripts/render-cli.mjs",
-    "test": "node scripts/validate.mjs && node --test scripts/brand.test.mjs && node --test scripts/remotion.test.mjs && node --test scripts/quickburn.test.mjs && node --test scripts/emom.test.mjs && node --test scripts/mobility.test.mjs && node --test scripts/render-cli.test.mjs && node --test scripts/server.test.mjs && node --test scripts/prompts.test.mjs && node --test scripts/n8n.test.mjs && node --test scripts/assets.test.mjs"
+    "test": "node scripts/validate.mjs && node --test scripts/brand.test.mjs && node --test scripts/remotion.test.mjs && node --test scripts/quickburn.test.mjs && node --test scripts/emom.test.mjs && node --test scripts/mobility.test.mjs && node --test scripts/render-cli.test.mjs && node --test scripts/server.test.mjs && node --test scripts/prompts.test.mjs && node --test scripts/n8n.test.mjs && node --test scripts/assets.test.mjs && node --test scripts/benchmark.test.mjs"
   },
   "keywords": [
     "remotion",
