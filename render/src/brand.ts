@@ -68,3 +68,7 @@ export const ANIMATION_TIMINGS = {
   exerciseTransitionFrames: 10,
   countdownPulseInterval: 1.0, // seconds
 };
+
+// Aliases for composition convenience
+export const COLORS = BRAND_COLORS;
+export const SAFE_AREAS = SAFE_AREA;
