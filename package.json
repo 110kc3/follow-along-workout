@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate.mjs",
-    "test": "node scripts/validate.mjs && node --test scripts/brand.test.mjs && node --test scripts/remotion.test.mjs && node --test scripts/quickburn.test.mjs && node --test scripts/emom.test.mjs && node --test scripts/mobility.test.mjs"
+    "render": "node scripts/render-cli.mjs",
+    "test": "node scripts/validate.mjs && node --test scripts/brand.test.mjs && node --test scripts/remotion.test.mjs && node --test scripts/quickburn.test.mjs && node --test scripts/emom.test.mjs && node --test scripts/mobility.test.mjs && node --test scripts/render-cli.test.mjs"
   },
   "keywords": [
     "remotion",

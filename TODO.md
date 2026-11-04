@@ -14,7 +14,7 @@ independently completable.
 - [x] Brand kit stub `render/src/brand.ts` (placeholder colors/font until branding decided; includes 1080x1920 video specs, safe areas, and unit tests)
 - [x] Composition: Quick Burn template (title card → per-exercise screens with countdown ring → CTA end card) in `render/src/compositions/QuickBurn.tsx`; verified with `scripts/quickburn.test.mjs`.
 - [x] Compositions: EMOM + Mobility Reset (reuse Quick Burn components in `render/src/compositions/EMOM.tsx` and `render/src/compositions/MobilityReset.tsx`, registered in `Root.tsx`, verified with `scripts/emom.test.mjs` and `scripts/mobility.test.mjs`)
-- [ ] `npm run render -- fixtures/<name>.json` CLI wrapper
+- [x] `npm run render -- fixtures/<name>.json` CLI wrapper: implemented `scripts/render-cli.mjs` with fixture path resolution, composition routing (`QuickBurn`, `EMOM`, `MobilityReset`), duration frame calculation, Remotion spawn execution, `--dry-run` inspection, and unit test suite in `scripts/render-cli.test.mjs` (19 tests pass).
 - [ ] Render all 3 on the Pi; record render times in STATUS.md → **go/no-go on Pi rendering**
 - [ ] Pick 2–3 tracks from YouTube Audio Library, drop into `render/assets/`
 
