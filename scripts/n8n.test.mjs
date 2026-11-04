@@ -9,15 +9,19 @@ const N8N_DIR = join(ROOT_DIR, 'n8n');
 test('n8n exported workflows exist and are valid JSON', () => {
   const generatorPath = join(N8N_DIR, 'workout-generator-workflow.json');
   const renderPath = join(N8N_DIR, 'render-approval-workflow.json');
+  const uploadPath = join(N8N_DIR, 'youtube-upload-workflow.json');
 
   assert.ok(existsSync(generatorPath), 'workout-generator-workflow.json must exist');
   assert.ok(existsSync(renderPath), 'render-approval-workflow.json must exist');
+  assert.ok(existsSync(uploadPath), 'youtube-upload-workflow.json must exist');
 
   const generator = JSON.parse(readFileSync(generatorPath, 'utf8'));
   const render = JSON.parse(readFileSync(renderPath, 'utf8'));
+  const upload = JSON.parse(readFileSync(uploadPath, 'utf8'));
 
   assert.ok(generator.name && Array.isArray(generator.nodes));
   assert.ok(render.name && Array.isArray(render.nodes));
+  assert.ok(upload.name && Array.isArray(upload.nodes));
 });
 
 test('workout-generator-workflow contains required pipeline nodes', () => {
@@ -75,4 +79,38 @@ test('render-approval-workflow contains required render and approval nodes', () 
       assert.ok(nodeNames.includes(tgt), `Connection target ${tgt} must be a known node name`);
     }
   }
+});
+
+test('youtube-upload-workflow contains required publishing nodes', () => {
+  const content = JSON.parse(readFileSync(join(N8N_DIR, 'youtube-upload-workflow.json'), 'utf8'));
+  const nodeNames = content.nodes.map((n) => n.name);
+  const nodeTypes = content.nodes.map((n) => n.type);
+
+  assert.ok(nodeTypes.includes('n8n-nodes-base.scheduleTrigger'), 'Must have a schedule trigger');
+  assert.ok(nodeTypes.includes('n8n-nodes-base.googleSheets'), 'Must have Google Sheets nodes');
+  assert.ok(nodeTypes.includes('n8n-nodes-base.youTube'), 'Must have YouTube upload node');
+
+  const ytNode = content.nodes.find((n) => n.id === 'youtube-upload-short');
+  assert.ok(ytNode, 'Must contain youtube-upload-short node');
+  assert.equal(ytNode.parameters.resource, 'video');
+  assert.equal(ytNode.parameters.operation, 'upload');
+
+  const connectionSources = Object.keys(content.connections);
+  for (const src of connectionSources) {
+    assert.ok(nodeNames.includes(src), `Connection source ${src} must be a known node name`);
+    const targets = content.connections[src].main.flat().map((t) => t.node);
+    for (const tgt of targets) {
+      assert.ok(nodeNames.includes(tgt), `Connection target ${tgt} must be a known node name`);
+    }
+  }
+});
+
+test('youtube OAuth bootstrap helper builds valid consent URL', async () => {
+  const { buildAuthUrl } = await import('./youtube-oauth.mjs');
+  const url = buildAuthUrl('test-client-id-123', 'http://localhost:3000/callback');
+
+  assert.match(url, /https:\/\/accounts\.google\.com\/o\/oauth2\/v2\/auth/);
+  assert.match(url, /client_id=test-client-id-123/);
+  assert.match(url, /youtube\.upload/);
+  assert.match(url, /access_type=offline/);
 });

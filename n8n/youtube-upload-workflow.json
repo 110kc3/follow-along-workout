@@ -1,0 +1,131 @@
+{
+  "name": "Follow-Along Workout - YouTube Shorts Auto-Publish",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 10 * * *"
+            }
+          ]
+        }
+      },
+      "id": "trigger-scheduled-daily",
+      "name": "Schedule Trigger (Daily 10:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "sheetId": {
+          "__rl": true,
+          "value": "FOLLOW_ALONG_WORKOUT_SHEET_ID",
+          "mode": "id"
+        },
+        "range": "Workouts!A:H",
+        "filters": {
+          "columnFilter": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "approved"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "sheets-fetch-approved",
+      "name": "Google Sheets - Fetch Approved Rows",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $json.Title }} #Shorts #Workout",
+        "categoryId": "17",
+        "privacyStatus": "public",
+        "videoFile": "={{ $json.RenderOutputPath }}",
+        "options": {
+          "description": "={{ JSON.parse($json.Payload).caption }}\n\n#followalong #quickworkout #fitness #homeworkout",
+          "tags": "workout, shorts, fitness, quick burn, emom, mobility"
+        }
+      },
+      "id": "youtube-upload-short",
+      "name": "YouTube - Upload Short",
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "sheetId": {
+          "__rl": true,
+          "value": "FOLLOW_ALONG_WORKOUT_SHEET_ID",
+          "mode": "id"
+        },
+        "range": "Workouts!A:H",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "posted",
+            "YouTubeVideoId": "={{ $json.id }}",
+            "YouTubeUrl": "=https://youtube.com/shorts/{{ $json.id }}",
+            "PostedAt": "={{ new Date().toISOString() }}"
+          }
+        }
+      },
+      "id": "sheets-update-status-posted",
+      "name": "Google Sheets - Update Row to Posted",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger (Daily 10:00)": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Fetch Approved Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Fetch Approved Rows": {
+      "main": [
+        [
+          {
+            "node": "YouTube - Upload Short",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube - Upload Short": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Update Row to Posted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": ["workout", "youtube", "publishing", "shorts"]
+}

@@ -38,7 +38,7 @@ independently completable.
 
 ## M4 — YouTube upload
 - [ ] Google Cloud project + YouTube Data API v3 + OAuth consent (needs channel decision — PLAN.md question 3)
-- [ ] n8n: approved + date reached → upload Short → write URL/status back to sheet
+- [x] n8n: approved + date reached → upload Short → write URL/status back to sheet (`n8n/youtube-upload-workflow.json`) + OAuth helper (`scripts/youtube-oauth.mjs`), verified by `scripts/n8n.test.mjs` (29 total tests pass).
 
 ## M5 — 7-day live run
 - [ ] Generate week, run the loop daily; manual IG/TikTok uploads
