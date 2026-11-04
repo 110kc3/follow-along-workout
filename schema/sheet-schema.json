@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FollowAlongWorkoutSheetSchema",
+  "description": "Google Sheet structure, column definitions, and status lifecycle state machine for follow-along-workout automation.",
+  "tabs": {
+    "Workouts": {
+      "range": "Workouts!A:K",
+      "columns": [
+        {
+          "name": "Status",
+          "index": 0,
+          "columnLetter": "A",
+          "type": "string",
+          "enum": ["idea", "scripted", "rendered", "approved", "rejected", "posted", "failed"],
+          "description": "Lifecycle stage of the workout video."
+        },
+        {
+          "name": "Template",
+          "index": 1,
+          "columnLetter": "B",
+          "type": "string",
+          "enum": ["quick-burn", "emom", "mobility-reset"],
+          "description": "Remotion composition template identifier."
+        },
+        {
+          "name": "Title",
+          "index": 2,
+          "columnLetter": "C",
+          "type": "string",
+          "description": "Short workout title displayed on video title card and YouTube title."
+        },
+        {
+          "name": "ScheduledDate",
+          "index": 3,
+          "columnLetter": "D",
+          "type": "string",
+          "format": "date",
+          "description": "Target publishing date in YYYY-MM-DD format."
+        },
+        {
+          "name": "Payload",
+          "index": 4,
+          "columnLetter": "E",
+          "type": "string",
+          "description": "Serialized JSON matching schema/workout.schema.json."
+        },
+        {
+          "name": "CreatedAt",
+          "index": 5,
+          "columnLetter": "F",
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp when the script row was created."
+        },
+        {
+          "name": "RenderOutputPath",
+          "index": 6,
+          "columnLetter": "G",
+          "type": "string",
+          "description": "Absolute filesystem path to the rendered MP4 on Pi host."
+        },
+        {
+          "name": "RenderedAt",
+          "index": 7,
+          "columnLetter": "H",
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp when rendering completed."
+        },
+        {
+          "name": "YouTubeVideoId",
+          "index": 8,
+          "columnLetter": "I",
+          "type": "string",
+          "description": "YouTube Video ID returned by Data API v3 upload."
+        },
+        {
+          "name": "YouTubeUrl",
+          "index": 9,
+          "columnLetter": "J",
+          "type": "string",
+          "format": "uri",
+          "description": "Public URL to YouTube Short (https://youtube.com/shorts/{id})."
+        },
+        {
+          "name": "PostedAt",
+          "index": 10,
+          "columnLetter": "K",
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp when the video was successfully published."
+        }
+      ]
+    },
+    "Metrics": {
+      "range": "Metrics!A:G",
+      "columns": [
+        { "name": "Date", "type": "string", "format": "date" },
+        { "name": "YouTubeVideoId", "type": "string" },
+        { "name": "Views", "type": "integer" },
+        { "name": "Likes", "type": "integer" },
+        { "name": "Comments", "type": "integer" },
+        { "name": "AveragePercentageViewed", "type": "number" },
+        { "name": "SubscribersGained", "type": "integer" }
+      ]
+    }
+  },
+  "statusLifecycle": {
+    "initial": "idea",
+    "transitions": {
+      "idea": ["scripted", "failed"],
+      "scripted": ["rendered", "failed"],
+      "rendered": ["approved", "rejected", "failed"],
+      "rejected": ["scripted", "failed"],
+      "approved": ["posted", "failed"],
+      "posted": [],
+      "failed": ["idea", "scripted"]
+    }
+  }
+}

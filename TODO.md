@@ -24,7 +24,12 @@ independently completable.
       created `prompts/workout-composer.md` (canonical 40-exercise taxonomy, progressive warmups,
       rest minimums, JSON schema) and `prompts/caption-generator.md` (hooks, Short titles,
       CTAs, retention copy); covered by test suite `scripts/prompts.test.mjs` (24 tests pass).
-- [ ] Create Google Sheet with schema columns + status lifecycle (idea/scripted/rendered/approved/posted/failed)
+- [x] Create Google Sheet with schema columns + status lifecycle (idea/scripted/rendered/approved/posted/failed):
+      authored `schema/sheet-schema.json` defining Workouts and Metrics tabs, column mappings (Status, Template, Title,
+      ScheduledDate, Payload, CreatedAt, RenderOutputPath, RenderedAt, YouTubeVideoId, YouTubeUrl, PostedAt),
+      and status transitions (`idea` -> `scripted` -> `rendered` -> `approved` -> `posted` or `failed`);
+      created CSV import template `schema/workouts-template.csv`, validator in `scripts/sheet-validator.mjs`,
+      and automated test suite in `scripts/sheet.test.mjs` (37 tests pass).
 - [x] n8n workflow: cron → LiteLLM → schema-validate → append sheet rows (`n8n/workout-generator-workflow.json`)
 - [x] Export workflow JSON to `n8n/`: created daily workout generator workflow and render-approval workflow; covered by `scripts/n8n.test.mjs` (27 total tests pass).
 
