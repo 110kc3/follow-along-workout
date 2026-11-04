@@ -26,7 +26,10 @@ independently completable.
 - [ ] Export workflow JSON to `n8n/`
 
 ## M3 — Render service + approval
-- [ ] `render/server.mjs` HTTP POST /render + systemd unit
+- [x] `render/server.mjs` HTTP POST /render + systemd unit: built native Node HTTP server
+      with `/health` and `POST /render` (JSON payload, dry-run support, composition mapping,
+      duration frame calculation), systemd service unit (`render/follow-along-render.service`),
+      and unit test suite (`scripts/server.test.mjs`, 21 tests pass).
 - [ ] n8n: scripted row → render → Telegram preview with Approve/Reject → update status
 - [ ] Create Telegram bot, store token in n8n credentials
 

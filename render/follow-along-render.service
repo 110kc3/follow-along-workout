@@ -1,0 +1,18 @@
+[Unit]
+Description=Follow-Along Workout Remotion Render Service
+After=network.target
+
+[Service]
+Type=simple
+User=borg
+WorkingDirectory=/home/borg/repos/follow-along-workout
+Environment=NODE_ENV=production
+Environment=PORT=3800
+ExecStart=/usr/bin/node render/server.mjs
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
