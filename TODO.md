@@ -13,7 +13,7 @@ independently completable.
 - [x] Scaffold Remotion project in `render/`: created `package.json`, `tsconfig.json`, `Root.tsx`, `index.ts`, and `compositions/QuickBurn.tsx` referencing brand design tokens; verified with `scripts/remotion.test.mjs`.
 - [x] Brand kit stub `render/src/brand.ts` (placeholder colors/font until branding decided; includes 1080x1920 video specs, safe areas, and unit tests)
 - [x] Composition: Quick Burn template (title card → per-exercise screens with countdown ring → CTA end card) in `render/src/compositions/QuickBurn.tsx`; verified with `scripts/quickburn.test.mjs`.
-- [ ] Compositions: EMOM + Mobility Reset (reuse Quick Burn components)
+- [x] Compositions: EMOM + Mobility Reset (reuse Quick Burn components in `render/src/compositions/EMOM.tsx` and `render/src/compositions/MobilityReset.tsx`, registered in `Root.tsx`, verified with `scripts/emom.test.mjs` and `scripts/mobility.test.mjs`)
 - [ ] `npm run render -- fixtures/<name>.json` CLI wrapper
 - [ ] Render all 3 on the Pi; record render times in STATUS.md → **go/no-go on Pi rendering**
 - [ ] Pick 2–3 tracks from YouTube Audio Library, drop into `render/assets/`
