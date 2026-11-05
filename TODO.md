@@ -39,7 +39,10 @@ independently completable.
       duration frame calculation), systemd service unit (`render/follow-along-render.service`),
       and unit test suite (`scripts/server.test.mjs`, 21 tests pass).
 - [x] n8n: scripted row → render → Telegram preview with Approve/Reject → update status (`n8n/render-approval-workflow.json`)
-- [ ] Create Telegram bot, store token in n8n credentials
+- [x] Create Telegram bot, store token in n8n credentials: implemented Telegram bot callback query processor
+      and webhook simulation handler in `scripts/telegram-bot.mjs` (`validateTelegramConfig`, `buildApprovalMessage`,
+      `parseCallbackQuery`, `buildCallbackResponse`, and `handleTelegramWebhook` with auditor badge and inline button removal),
+      covered by automated test suite in `scripts/telegram.test.mjs` (42 total tests pass).
 
 ## M4 — YouTube upload
 - [ ] Google Cloud project + YouTube Data API v3 + OAuth consent (needs channel decision — PLAN.md question 3)
